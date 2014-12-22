@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset = "utf-8">
+		<title>Power Up!</title>
+		<script src="../blockly_compressed.js"></script>
+		<script src="../blocks_compressed.js"></script>
+		<script src="../javascript_compressed.js"></script>
+		<script src="../python_compressed.js"></script>
+		<script src="../msg/js/en.js"></script>
+
+    <script src="blocks.js"></script>
+    <script src="generators.js"></script>
+    <script src="gameplay.js"></script>
+    <style>
+      body {
+        font-family: verdana, sans-serif;
+        font-size:100%;
+      }
+      .meterStatus {
+        font-family:monospace;
+      }
+    </style>
+	</head>
+	<body onLoad = "generatePowerUpMeter(1215)">
+<FORM NAME = "stateForm">
+  <INPUT TYPE = "HIDDEN" NAME = "numberOfFilledInBars" VALUE = "0">
+  <INPUT TYPE = "HIDDEN" NAME = "startRed" SIZE = "3" VALUE = "255">
+  <INPUT TYPE = "HIDDEN" NAME = "startGreen" SIZE = "3" VALUE = "0">
+  <INPUT TYPE = "HIDDEN" NAME = "startBlue" SIZE = "3" VALUE = "0">
+  <INPUT TYPE = "HIDDEN" NAME = "endRed" SIZE = "3" VALUE = "0">
+  <INPUT TYPE = "HIDDEN" NAME = "endGreen" SIZE = "3" VALUE = "200">
+  <INPUT TYPE = "HIDDEN" NAME = "endBlue" SIZE = "3" VALUE = "0">
+  <INPUT TYPE = "HIDDEN" NAME = "deltaRed" SIZE = "3" VALUE = "0">
+  <INPUT TYPE = "HIDDEN" NAME = "deltaGreen" SIZE = "3" VALUE = "0">
+  <INPUT TYPE = "HIDDEN" NAME = "deltaBlue" SIZE = "3" VALUE = "0">
+</FORM>
+  <h1>Power Up!</h1>
+  <p>POWER UP: Every time you call the powerUp function, the energy bar is increased by 1.  You can also create your own multi powerUp functions that call powerUp functions or even other multi powerUp() functions!  But you're limited to 20 function calls.  Can you power up the energy meter to 1024 or beyond to become a SUPERHERO?</p>
+    <div id = "meterDiv" style = "margin:10px;">
+    </div>
+		<form STYLE = "float:right;width: 20%">
+			<input id = "language" value = "Python" TYPE = "hidden">
+			<DIV>
+				<SPAN STYLE = "border:1px solid black; padding:2px; background-color:red;" onClick = "setLanguage('Python')" id = "pythonTab">Python</SPAN>
+				<SPAN STYLE = "border:1px solid black; padding:2px;" onClick = "setLanguage('JavaScript')" id = "jsTab">JavaScript</SPAN>
+        <SPAN STYLE = "border:1px solid black; padding:2px;" onClick = "runPowerUps()" id = "runTab">Run</SPAN>
+			</DIV>
+			<TEXTAREA id = "textarea" COLS = "50" ROWS = "50"></TEXTAREA>
+		</form>
+		<div id="blocklyDiv" style="height: 600px; width: 75%;float:left;"></div>
+    <xml id = "toolbox" style = "display: none">
+      <block type = "multipowerup">
+        <field name = "NUM_TIMES">0</field>
+      </block>
+      <block type = "powerup"></block>
+    </xml>
+		<script>
+  	 Blockly.inject(document.getElementById('blocklyDiv'),
+      			{toolbox: document.getElementById('toolbox')});
+  	 function myUpdateFunction() {
+  	   var code = Blockly.JavaScript.workspaceToCode();
+  	   if(document.getElementById('language').value == "Python")
+  	     code = Blockly.Python.workspaceToCode();
+  	   document.getElementById('textarea').value = code;
+		  }
+			Blockly.addChangeListener(myUpdateFunction);
+			function setLanguage(language) {
+				document.getElementById('language').value = language;
+				pythonTab = document.getElementById("pythonTab");
+				jsTab = document.getElementById("jsTab");
+				if(language == "Python") {
+					pythonTab.style.backgroundColor = "#ff0000";
+					jsTab.style.backgroundColor = "#ffffff";
+				} else {
+					pythonTab.style.backgroundColor = "#ffffff";
+					jsTab.style.backgroundColor = "#ff0000";
+				}
+				myUpdateFunction();
+			}
+		</script>
+	</body>
+</html>
