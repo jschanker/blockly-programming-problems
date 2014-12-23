@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset = "utf-8">
+		<title>A Matter of Time: Hours, Minutes, and Seconds</title>
+		<script src="../blockly_compressed.js"></script>
+		<script src="../blocks_compressed.js"></script>
+		<script src="../javascript_compressed.js"></script>
+		<script src="../python_compressed.js"></script>
+		<script src="../msg/js/en.js"></script>
+
+    <script src="time_blocks.js"></script>
+    <script src="generators.js"></script>
+    <script src="gameplay.js"></script>
+    <style>
+      body {
+        font-family: verdana, sans-serif;
+        font-size:100%;
+      }
+      .meterStatus {
+        font-family:monospace;
+      }
+      .testCell {
+        border: 1px dashed black;
+        padding: 3px;
+      }
+    </style>
+	</head>
+  <body>
+    <h1>A Matter of Time: Hours, Minutes and Seconds</h1>
+    <p>A MATTER OF HOURS, MINUTES, AND SECONDS: Can you write a function to convert the number of seconds to an equivalent number of hours, minutes, and seconds in which the number of minutes and seconds are both less than 60?  No matter how many seconds it takes, you can do it!</p>
+    <div style = "padding: 5px; margin-bottom: 10px; background-color:#D0D0D0">
+      Tests Passed (Green = Pass, Red = Fail):
+      <span class = "testCell" id = "test10">10</span>
+      <span class = "testCell" id = "test1000">1000</span>
+      <span class = "testCell" id = "test8000">8000</span>
+      <span class = "testCell" id = "test14400">14400</span>
+      <span class = "testCell" id = "test123456789">123456789</span>
+    </div>
+    <form STYLE = "float:right;width: 20%">
+      <input id = "language" value = "Python" TYPE = "hidden">
+      <DIV>
+        <SPAN STYLE = "border:1px solid black; padding:2px; background-color:red;" onClick = "setLanguage('Python')" id = "pythonTab">Python</SPAN>
+        <SPAN STYLE = "border:1px solid black; padding:2px;" onClick = "setLanguage('JavaScript')" id = "jsTab">JavaScript</SPAN>
+        <SPAN STYLE = "border:1px solid black; padding:2px;" onClick = "runCodeAndTestFunctions()" id = "runTab">Run</SPAN>
+      </DIV>
+      <TEXTAREA id = "textarea" COLS = "50" ROWS = "50"></TEXTAREA>
+    </form>
+    <div id="blocklyDiv" style="height: 600px; width: 75%;float:left;"></div>
+    <xml id = "toolbox" style = "display: none">
+      <block type = "timevariables_get"></block>
+      <block type = "timevariables_set"></block>
+      <block type = "math_arithmetic"></block>
+      <block type = "math_modulo"></block>
+    </xml>
+    <xml id="startBlocks" style="display: none">
+      <block type="numOfHrsMinsAndSecs" movable="false" deletable="false" x="0" y="0">
+      </block>
+      <block type = "printNumOfHrsMinsAndSecs" movable="false" deletable="false" x = "0" y = "400"></block>
+    </xml>
+    <script>
+     Blockly.inject(document.getElementById('blocklyDiv'),
+            {toolbox: document.getElementById('toolbox')});
+     Blockly.Xml.domToWorkspace(Blockly.mainWorkspace,
+            document.getElementById('startBlocks'));
+     function myUpdateFunction() {
+       var code = Blockly.JavaScript.workspaceToCode();
+       if(document.getElementById('language').value == "Python")
+         code = Blockly.Python.workspaceToCode();
+       document.getElementById('textarea').value = code;
+      }
+      Blockly.addChangeListener(myUpdateFunction);
+      function setLanguage(language) {
+        document.getElementById('language').value = language;
+        pythonTab = document.getElementById("pythonTab");
+        jsTab = document.getElementById("jsTab");
+        if(language == "Python") {
+          pythonTab.style.backgroundColor = "#ff0000";
+          jsTab.style.backgroundColor = "#ffffff";
+        } else {
+          pythonTab.style.backgroundColor = "#ffffff";
+          jsTab.style.backgroundColor = "#ff0000";
+        }
+        myUpdateFunction();
+      }
+    </script>
+  </body>
+</html>
