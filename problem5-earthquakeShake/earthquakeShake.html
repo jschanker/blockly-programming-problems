@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset = "utf-8">
+    <title>Earthquake Shake!</title>
+    <script src="../blockly_compressed.js"></script>
+    <script src="../blocks_compressed.js"></script>
+    <script src="../javascript_compressed.js"></script>
+    <script src="../python_compressed.js"></script>
+    <script src="../msg/js/en.js"></script>
+
+    <script src="earthquake-blocks.js"></script>
+    <script src="generators.js"></script>
+    <script src="gameplay.js"></script>
+    <style>
+      body {
+        font-family: verdana, sans-serif;
+        font-size:100%;
+      }
+      .meterStatus {
+        font-family:monospace;
+      }
+      .testCell {
+        border: 1px dashed black;
+        padding: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Earthquake Shake!</h1>
+    <p>Earthquake Shake!  It's now time to play the role of a <a href = "http://en.wikipedia.org/wiki/Seismology">seismologist</a> and translate a <a href = "http://en.wikipedia.org/wiki/Richter_magnitude_scale">Richter scale</a> reading for us nonspecialists so we can get an idea of the power of the earthquake in question.  The function <CODE>richterDamageDescription</CODE> should return a String representing the destruction we can expect from an earthquake with a given magnitude on the Richter scale according to the following (Example from Java Concepts book by Cay Horstmann):</p>
+    <ul>
+      <li>0 - &lt; 4.5: No destruction of buildings</li>
+      <li>4.5 - &lt; 6: Damage to poorly constructed buildings</li>
+      <li>6 - &lt; 7: Many buildings considerably damaged, some collapse</li>
+      <li>7 - &lt; 8: Many buildings destroyed</li>
+      <li>>= 8: Most structures fall</li>
+    </ul>
+    <p>E.g., <CODE>richterDamageDescription(5.81)</CODE> should return the String, "Damage to poorly constructed buildings" while <CODE>richterDamageDescription(8)</CODE> should return "Most structures fall".</p>
+    <div style = "padding: 5px; margin-bottom: 10px; background-color:#D0D0D0">
+      Tests Passed (Green = Pass, Red = Fail):
+      <span class = "testCell" id = "test0">0</span>
+      <span class = "testCell" id = "test2.1">2.1</span>
+      <span class = "testCell" id = "test4.5">4.5</span>
+      <span class = "testCell" id = "test5">5</span>
+      <span class = "testCell" id = "test5.812345">5.812345</span>
+      <span class = "testCell" id = "test6.00">6.00</span>
+      <span class = "testCell" id = "test6.000001">6.000001</span>
+      <span class = "testCell" id = "test7">7</span>
+      <span class = "testCell" id = "test7.9999">7.9999</span>
+      <span class = "testCell" id = "test8">8</span>
+      <span class = "testCell" id = "test10.1">10.1</span>
+    </div>
+    <form STYLE = "float:right;width: 25%">
+      <input id = "language" value = "Python" TYPE = "hidden">
+      <DIV>
+        <SPAN STYLE = "border:1px solid black; padding:2px; background-color:red;" onClick = "setLanguage('Python')" id = "pythonTab">Python</SPAN>
+        <SPAN STYLE = "border:1px solid black; padding:2px;" onClick = "setLanguage('JavaScript')" id = "jsTab">JavaScript</SPAN>
+        <SPAN STYLE = "border:1px solid black; padding:2px;" onClick = "runCodeAndTestFunctions()" id = "runTab">Run</SPAN>
+      </DIV>
+      <TEXTAREA id = "textarea" COLS = "50" ROWS = "50"></TEXTAREA>
+    </form>
+    <div id="blocklyDiv" style="height: 600px; width: 70%;float:left;"></div>
+    <xml id = "toolbox" style = "display: none">
+      <block type = "inputvariable_get"></block>
+      <block type = "returnvariable_set"></block>
+      <block type = "math_number"></block>
+      <block type = "controls_if"></block>
+      <block type = "logic_compare"></block>
+      <block type = "text"></block>
+    </xml>
+    <xml id="startBlocks" style="display: none">
+      <block type="richterDamageDescription" movable="false" deletable="false" x="40" y="0">
+      </block>
+      <block type = "printRichterDamageDescription" movable="false" deletable="false" x = "40" y = "450"></block>
+    </xml>
+    <script>
+     Blockly.inject(document.getElementById('blocklyDiv'),
+            {toolbox: document.getElementById('toolbox')});
+     Blockly.Xml.domToWorkspace(Blockly.mainWorkspace,
+            document.getElementById('startBlocks'));
+     function myUpdateFunction() {
+       var code = Blockly.JavaScript.workspaceToCode();
+       if(document.getElementById('language').value == "Python")
+         code = Blockly.Python.workspaceToCode();
+       document.getElementById('textarea').value = code;
+      }
+      Blockly.addChangeListener(myUpdateFunction);
+      function setLanguage(language) {
+        document.getElementById('language').value = language;
+        pythonTab = document.getElementById("pythonTab");
+        jsTab = document.getElementById("jsTab");
+        if(language == "Python") {
+          pythonTab.style.backgroundColor = "#ff0000";
+          jsTab.style.backgroundColor = "#ffffff";
+        } else {
+          pythonTab.style.backgroundColor = "#ffffff";
+          jsTab.style.backgroundColor = "#ff0000";
+        }
+        myUpdateFunction();
+      }
+    </script>
+  </body>
+</html>
