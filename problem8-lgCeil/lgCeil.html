@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset = "utf-8">
+    <title>Binary Log Gets A Raise</title>
+    <script src="../blockly_compressed.js"></script>
+    <script src="../blocks_compressed.js"></script>
+    <script src="../javascript_compressed.js"></script>
+    <script src="../python_compressed.js"></script>
+    <script src="../msg/js/en.js"></script>
+
+    <script src="lgceil-blocks.js"></script>
+    <script src="generators.js"></script>
+    <script src="gameplay.js"></script>
+    <style>
+      body {
+        font-family: verdana, sans-serif;
+        font-size:100%;
+      }
+      .meterStatus {
+        font-family:monospace;
+      }
+      .testCell {
+        border: 1px dashed black;
+        padding: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Binary Log Gets a Raise</h1>
+    <p>Binary Log Gets A Raise.  How much of a raise?  Well maybe none or maybe a whole integer amount!  How suspenseful!  Are you waiting on the edge of your seat to find out?  Of course you are.  But first things first.  The binary log of a positive number <var>y</var> is the exponent <var>x</var> such that <var>y</var> = 2<sup><var>x</var></sup>.  For example, lg 8 = 3 since 8 = 2<sup>3</sup> while lg 512 = 9 since 512 = 2<sup>9</sup> and lg 1024 = 10 since 1024 = 2<sup>10</sup>.  The binary logs of numbers between 512 and 1024 will be between 9 and 10.  This is where the raise comes in.  When the binary log of the number is a whole number, we want you to return that number so <CODE>lgCeil(8)</CODE> should return 3, <CODE>lgCeil(512)</CODE> should return 9 and <CODE>lgCeil(1024)</CODE> should return 10.  But when it's not, such as the case with numbers greater than 512 and less than 1024, we want you to round up to the next largest integer (its ceiling) so e.g., <CODE>lgCeil(512.001)</CODE> and <CODE>lgCeil(1000)</CODE> should both return 10.  <strong>To make it easier, you may assume the input <var>y</var> is at least 1.</strong> And one more thing: you got to do this with a loop in the way we set it up because we're sticklers like that.  But maybe your way doesn't need all of the statements we provide.  That's fine, just make these statements do useless stuff like setting some new variable you don't use to 0.</p>
+    <div style = "padding: 5px; margin-bottom: 10px; background-color:#D0D0D0">
+      Tests Passed (Green = Pass, Red = Fail):
+      <span class = "testCell" id = "test1">1</span>
+      <span class = "testCell" id = "test1.05">1.05</span>
+      <span class = "testCell" id = "test2">2</span>
+      <span class = "testCell" id = "test2.0001">2.0001</span>
+      <span class = "testCell" id = "test3">3</span>
+      <span class = "testCell" id = "test4">4</span>
+      <span class = "testCell" id = "test5">5</span>
+      <span class = "testCell" id = "test8.2531">8.2531</span>
+      <span class = "testCell" id = "test10.21">10.21</span>
+      <span class = "testCell" id = "test1000">1000</span>
+      <span class = "testCell" id = "test16384">16384</span>
+      <span class = "testCell" id = "test1000000000.12345">1000000000.12345</span>
+    </div>
+    <form STYLE = "float:right;width: 25%">
+      <input id = "language" value = "Python" TYPE = "hidden">
+      <DIV>
+        <SPAN STYLE = "border:1px solid black; padding:2px; background-color:red;" onClick = "setLanguage('Python')" id = "pythonTab">Python</SPAN>
+        <SPAN STYLE = "border:1px solid black; padding:2px;" onClick = "setLanguage('JavaScript')" id = "jsTab">JavaScript</SPAN>
+        <SPAN STYLE = "border:1px solid black; padding:2px;" onClick = "runCodeAndTestFunctions()" id = "runTab">Run</SPAN>
+      </DIV>
+      <TEXTAREA id = "textarea" COLS = "50" ROWS = "50"></TEXTAREA>
+    </form>
+    <div id="blocklyDiv" style="height: 600px; width: 70%;float:left;"></div>
+    <xml id = "toolbox" style = "display: none">
+      <block type = "variables_get"></block>
+      <block type = "math_number"></block>
+      <block type = "math_arithmetic"></block>
+      <block type = "math_number_property"></block>
+      <block type = "logic_compare"></block>
+    </xml>
+    <xml id="startBlocks" style="display: none">
+      <block type="lgCeil" movable="false" deletable="false" x="40" y="0">
+        <statement name = "function">
+            <block type = "variables_set" deletable="false" movable="false" minx="0">
+              <next>
+                <block type = "variables_set" deletable="false" movable="false" minx="0">
+                  <next>
+                    <block type = "controls_whileUntil" movable="false" deletable = "false">
+                      <statement name = "DO">
+                        <block type = "variables_set" deletable="false" movable="false" minx="0">
+                          <next>
+                            <block type = "variables_set" deletable="false" movable="false" minx="0"></block>
+                          </next>
+                        </block>
+                      </statement>
+                      <next>
+                        <block type = "return" movable = "false" deletable = "false"></block>
+                      </next>
+                    </block>
+                  </next>
+              </next>
+            </block>
+        </statement>
+      </block>
+      <block type = "printSoHeyYo" movable="false" deletable="false" x = "40" y = "350"></block>
+    </xml>
+    <script>
+     Blockly.inject(document.getElementById('blocklyDiv'),
+            {toolbox: document.getElementById('toolbox')});
+     Blockly.Xml.domToWorkspace(Blockly.mainWorkspace,
+            document.getElementById('startBlocks'));
+     function myUpdateFunction() {
+       var code = Blockly.JavaScript.workspaceToCode();
+       if(document.getElementById('language').value == "Python")
+         code = Blockly.Python.workspaceToCode();
+       document.getElementById('textarea').value = code;
+      }
+      Blockly.addChangeListener(myUpdateFunction);
+      function setLanguage(language) {
+        document.getElementById('language').value = language;
+        pythonTab = document.getElementById("pythonTab");
+        jsTab = document.getElementById("jsTab");
+        if(language == "Python") {
+          pythonTab.style.backgroundColor = "#ff0000";
+          jsTab.style.backgroundColor = "#ffffff";
+        } else {
+          pythonTab.style.backgroundColor = "#ffffff";
+          jsTab.style.backgroundColor = "#ff0000";
+        }
+        myUpdateFunction();
+      }
+    </script>
+  </body>
+</html>
