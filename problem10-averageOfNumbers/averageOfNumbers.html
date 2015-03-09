@@ -29,7 +29,7 @@
   </head>
   <body>
     <h1>Not Your Average Numbers</h1>
-    <p>The average person can't program a computer to get the average of a list of entered numbers.  But you're not the average person, are you?  OK, so this time you're going to be prompting the user continually until he/she enters an integer that's <em>not</em> positive.  Then return the average of the positive numbers at the end.  Be sure to use descriptive variable names that precisely state what the variables hold every time the condition of the while loop is checked so your code is self-documenting.  Besides being easy to read, it'll be easy to prove program correctness this way.  Remember that so-called loop invariant stuff?  Anyway, just to be clear, here are some examples: <CODE>averageOfPositiveEnteredNumbers()</CODE> should return 10 given inputs of <CODE>2, 21, 7, and -5</CODE> or <CODE>2, 21, 7, and 0</CODE>.  You can assume the user always enters one positive integer.  Oh, and you're on your own for testing this time, but you're a pro at this testing thing now, right? Good luck!</p>
+    <p>The average person can't program a computer to calculate the average of a list of entered numbers.  But you're not the average person, are you?  OK, so this time you're going to be prompting the user continually until he/she enters an integer that's <em>not</em> positive.  Then return the average of the positive numbers at the end.  Be sure to use descriptive variable names that precisely state what the variables hold every time the condition of the while loop is checked so your code is self-documenting.  Besides being easy to read, it'll be easy to prove program correctness this way.  Remember that so-called loop invariant stuff?  Anyway, just to be clear, here are some examples: <CODE>averageOfPositiveEnteredNumbers()</CODE> should return 10 given inputs of <CODE>2, 21, 7, and -5</CODE> or <CODE>2, 21, 7, and 0</CODE>.  You can assume the user always enters one positive integer.  Oh, and you're on your own for testing this time, but you're a pro at this testing thing now, right? Good luck!</p>
     <!--<div style = "padding: 5px; margin-bottom: 10px; background-color:#D0D0D0">
       Tests Passed (Green = Pass, Red = Fail):
       <span class = "testCell" id = "test1">1</span>
@@ -58,6 +58,7 @@
       <block type = "math_number"></block>
       <block type = "math_arithmetic"></block>
       <block type = "math_number_property"></block>
+      <block type = "logic_negate"></block>
       <block type = "logic_compare"></block>
       <block type = "input_prompt"></block>
       <block type = "text"></block>
@@ -66,6 +67,14 @@
       <block type="averageOfPositiveEnteredIntegers" movable="false" deletable="false">
         <statement name = "function">
             <block type = "variables_set" deletable="false" movable="false">
+              <field name="VAR">enteredNumber</field>
+              <value name = "VALUE">
+                <block type = "input_prompt" deletable="false" movable="false">
+                  <value name = "NAME">
+                    <block type = "text" deletable = "false" movable = "false"></block>
+                  </value>
+                </block>
+              </value>
               <next>
                 <block type = "variables_set" deletable="false" movable="false">
                   <next>
@@ -73,15 +82,37 @@
                       <next>
                         <block type = "variables_set" deletable="false" movable="false">
                           <next>
-                            <block type = "controls_doWhileUntil" movable="false" deletable = "false">
+                            <block type = "controls_whileUntil" movable="false" deletable = "false">
+                              <value name = "BOOL">
+                                <block type = "logic_boolean" movable = "false">
+                                  <field name = "BOOL">TRUE</field>
+                                </block>
+                              </value>
                               <statement name = "DO">
                                 <block type = "variables_set" deletable = "false" movable = "false">
+                                  <field name="VAR">enteredNumber</field>
+                                  <value name = "VALUE">
+                                    <block type = "input_prompt" deletable="false" movable="false">
+                                      <value name = "NAME">
+                                        <block type = "text" deletable = "false" movable = "false"></block>
+                                      </value>
+                                    </block>
+                                  </value>
                                   <next>
-                                    <block type = "variables_set" deletable="false" movable="false">
+                                    <block type = "controls_if" deletable="false" movable="false">
+                                      <statement name = "DO0">
+                                        <block type="controls_flow_statements" movable = "false">
+                                          <field name="FLOW">BREAK</field>
+                                        </block>
+                                      </statement>
                                       <next>
                                         <block type = "variables_set" deletable="false" movable="false">
                                           <next>
-                                            <block type = "variables_set" deletable="false" movable="false"></block>
+                                            <block type = "variables_set" deletable="false" movable="false">
+                                              <next>
+                                                <block type = "variables_set" deletable="false" movable="false"></block>
+                                              </next>
+                                            </block>
                                           </next>
                                         </block>
                                       </next>
@@ -102,7 +133,7 @@
             </block>
         </statement>
       </block>
-      <block type = "printAverageOfPositiveEnteredIntegers" movable="false" deletable="false" x = "0" y = "520"></block>
+      <block type = "printAverageOfPositiveEnteredIntegers" movable="false" deletable="false" x = "0" y = "540"></block>
     </xml>
     <script>
      Blockly.inject(document.getElementById('blocklyDiv'),

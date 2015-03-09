@@ -1,5 +1,5 @@
 function runCodeAndTestFunctions() {
-  window.LoopTrap = 1000;
+  window.LoopTrap = 10;
   Blockly.JavaScript.INFINITE_LOOP_TRAP = 'if(--window.LoopTrap == 0) throw "Infinite loop.";\n';
   var code = Blockly.JavaScript.workspaceToCode();
   try {
